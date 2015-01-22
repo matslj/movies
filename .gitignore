@@ -1,0 +1,7 @@
+# This will be ignored in this folder
+target/
+.settings/
+.project
+.classpath
+.factorypath
+

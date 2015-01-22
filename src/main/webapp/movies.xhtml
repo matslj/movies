@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="title">
+        #{bundle['application.movies.title']}
+    </ui:define>
+	<ui:define name="content">
+		<h:link value="Ny film" outcome="moviesAdd" />
+		<h:form>
+			<h:panelGroup layout="block" rendered="#{not empty filmBean.selectedFilm}]">
+				<h:panelGrid columns="3">
+					<h:outputText value="#{bundle['film.titel']}"></h:outputText>
+					<h:inputText id="titelFilm" value="#{filmBean.selectedFilm.title}"
+						required="true" requiredMessage="#{bundle['film.titel.required']}">
+					</h:inputText>
+					<h:message for="titelFilm" styleClass="errorMessage" />
+				</h:panelGrid>
+	
+				<h:commandButton value="#{bundle['application.subscribe']}"
+					action="#{filmBean.sparaNyFilm}">
+				</h:commandButton>
+				<br />
+
+				<h:messages styleClass="errorMessage" />
+			</h:panelGroup>
+
+			<h:dataTable var="_movie" value="#{filmBean.filmer}"
+				rendered="#{not empty filmBean.filmer}" styleClass="movieTable"
+				headerClass="movieTableHeader"
+				columnClasses="idCol,titelCol,controlCol"
+				rowClasses="movieTableOddie,movieTableEvenie">
+				
+				<h:column>
+					<f:facet name="header">#{bundle['film.titel']}</f:facet>
+                	<h:link value="#{_movie.title}" outcome="movieDetail">
+                		<f:param name="id" value="#{_movie.id}"/>
+                	</h:link>
+         		</h:column>
+         		<h:column>
+					<f:facet name="header">År</f:facet>
+                	#{_movie.year}
+            	</h:column>
+				<h:column>
+            		[x]
+         		</h:column>
+			</h:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+</html>

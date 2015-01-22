@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/templates/default.xhtml">
+	
+    <ui:define name="title">
+        #{bundle['application.movies.title']}
+    </ui:define>
+    
+    <ui:define name="content">
+    	<div class="loading">Loading&#8230;</div>
+        <h:form id="addMovieForm">
+        	<h:messages />
+            <h:panelGrid columns="4">
+            	<h:panelGroup layout="block">
+            		<div>
+            		<input id="titleRadio" type="radio" name="searchtype" value="title" checked="checked" />
+            		<label for="titleRadio"><h:outputText style="font-weight: bold;" value="#{bundle['film.titel']}"></h:outputText></label>
+            		</div>
+            		<div>
+            		<input id="imdbidRadio" type="radio" name="searchtype" value="imdbid" />
+            		<label for="imdbidRadio"><h:outputText style="font-weight: bold;" value="imdbid"></h:outputText></label>
+            		</div>
+            	</h:panelGroup>
+                <h:inputText id="titelFilm" 
+                             value="#{flash.title}" 
+                             required="true" 
+                             requiredMessage="#{bundle['film.titel.required']}">
+                </h:inputText>
+                <h:commandButton id="sokBtn" value="Sök" onclick="searchImdb(); return false;" />
+                <h:message for="titelFilm" styleClass="errorMessage"/>
+            </h:panelGrid>
+            
+            <!-- Start: from imdb -->
+            <fieldset id="imdbDetails">
+	            <div style="display: inline-block; padding-right: 20px;">
+	            	<label for="yearMovie">År:</label><span id="yearMovie"></span>
+	            </div>
+	            <div style="display: inline-block;">
+	            	<label for="runtimeMovie">Speltid:</label><span id="runtimeMovie"></span>
+	            </div>
+	            <h4>Intrig</h4>
+	            <p id="plotMovie"></p>
+	            <div style="padding-top: 10px;">
+	            	<label for="actorsMovie">Skådespelare:</label><span id="actorsMovie"></span>
+	            </div>
+            </fieldset>
+            <!-- End: from imdb -->
+            
+            <h:inputHidden id="imdbJSON" value="#{flash.imdbJSON}" />
+            
+            <h:selectBooleanCheckbox id="massreg" value="#{flash.massreg}" /><label for="massreg">Massregistrering</label>
+            
+            <div class="buttonControlPanel">
+	            <h:commandButton value="#{bundle['application.save']}" 
+	                             action="#{filmBean.sparaNyFilm}">
+	            </h:commandButton> 
+	            <h:commandButton value="#{bundle['application.back']}" immediate="true" 
+	                             action="movies?faces-redirect=true">
+	            </h:commandButton>
+            </div>
+        </h:form>
+        <script>
+        	// Kopplar entertangenten i titelfältet till sök
+	        $("#titelFilm").keyup(function (e) {
+	            if (e.keyCode == 13) {
+	                $("#addMovieForm\\:sokBtn").click();
+	            }
+	        });	
+        
+        	function searchImdb() {
+            	var titel = $("#addMovieForm\\:titelFilm").val();
+            	var radioVal = $(":input[type=radio]:checked").val();
+            	var searchtype = (radioVal == "title" ? "t=" : "i=");
+
+            	$("#addMovieForm ul").remove();
+            	$("#addMovieForm\\:titelFilm").removeClass("invalidInput");
+            	
+            	$.getJSON("http://www.omdbapi.com/?y=&amp;plot=short&amp;r=json&amp;" + searchtype + titel, function (data) {
+                	if (data &amp;&amp; data.Response === "True") {
+                		$('#addMovieForm td:last').html('');
+                		$("#yearMovie").html(data.Year);
+                		$("#plotMovie").html(data.Plot);
+                		$("#actorsMovie").html(data.Actors);
+                		$("#runtimeMovie").html(data.Runtime);
+
+                		$("#addMovieForm\\:imdbJSON").val(JSON.stringify(data));
+                	} else {
+                    	$('#addMovieForm td:last').html('<span id="noService" style="color:red;">titeln saknas i imdb</span>');
+                    }
+                });
+            }
+
+        	$(':input[type=text]:enabled:visible:first').focus();            
+
+        	var $loading = $('.loading').hide();
+        	$(document)
+        	  .ajaxStart(function () {
+        	    $loading.show();
+        	  })
+        	  .ajaxStop(function () {
+        	    $loading.hide();
+        	  });
+            
+			
+		</script>
+    </ui:define>
+</ui:composition>
+    
+</html>

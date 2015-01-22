@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<datasources xmlns="http://www.jboss.org/ironjacamar/schema">
+	<datasource jndi-name="java:jboss/datasources/MySqlDS" pool-name="MySqlDS" enabled="true" use-java-context="true">
+		<connection-url>jdbc:mysql://localhost/test</connection-url>
+		<driver>mysql-connector-java-5.1.18-bin.jar</driver>
+		<transaction-isolation>TRANSACTION_READ_COMMITTED</transaction-isolation>
+		<pool>
+			<min-pool-size>10</min-pool-size>
+			<max-pool-size>100</max-pool-size>
+			<prefill>true</prefill>
+		</pool>
+		<security>
+			<user-name>mats</user-name>
+			<password>hemligt</password>
+		</security>
+	</datasource>
+</datasources>

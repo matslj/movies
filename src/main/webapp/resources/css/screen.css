@@ -1,0 +1,106 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #EAECEE;
+    font-family: Verdana, sans-serif;
+    font-size: 0.9em;
+}
+#container {
+    margin: 20px auto;
+    border: 1px solid #666666;
+    width: 865px; /* subtract 40px from banner width for padding */
+    background-color: #FFF;
+}
+#sidebar {
+    font-size: 0.9em;
+    width: 225px;
+    float: right;
+    border: 1px solid #666666;
+    border-top: 0;
+    background: #EAECEE;
+    padding: 0 15px 5px 15px;
+}
+#sidebar ul {
+    padding-left: 30px;
+}
+#footer {
+    clear: both;
+    text-align: center;
+    color: #666666;
+    font-size: 0.85em;
+    padding: 3em 0 0 0;
+}
+code {
+    font-size: 1.1em;
+}
+span.invalid {
+    padding-left: 3px;
+    color: red;
+}
+
+.errorMessage {
+	color: red;
+}
+
+.invalidInput {
+	background-color: red;
+	color: white;
+}
+
+#header {
+	height: 110px;
+	padding-bottom: 10px;
+	background: #000 url(#{request.contextPath}/resources/gfx/movies-xxl.png) no-repeat;
+	background-position: 20px 10px;
+	background-size: 100px 100px;
+}
+
+#contentBody {
+	padding: 20px;
+	margin-right: 257px;
+}
+
+.movieTable {
+	margin-top: 20px;
+   border-collapse:collapse;
+   border:1px solid #000000;
+   width: 100%;
+}
+
+.movieTable th, .movieTable td {
+	padding: 3px 10px 3px 3px;
+}
+
+.movieTableHeader {
+   text-align:left;
+   background:none repeat scroll 0 0 #B5B5B5;
+   border-bottom:1px solid #000000;
+}
+
+.movieTableOddie {
+	background:none repeat scroll 0 0 #FFFFFFF;
+}
+
+.movieTableEvenie {
+	background:none repeat scroll 0 0 #D3D3D3;
+}
+
+.buttonControlPanel {
+	margin-top: 30px;
+}
+
+.buttonControlPanel input {
+	margin-right: 20px;
+}
+
+#imdbDetails {
+	margin: 20px 0;
+}
+
+#imdbDetails label {
+	font-weight: bold;
+	margin-right: 5px;
+}
+
+
+
